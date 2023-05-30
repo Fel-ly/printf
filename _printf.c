@@ -1,56 +1,63 @@
 #include "main.h"
 
 /**
- * _buffer - print buffer contents
- * @buffer: content to be printed
- * @index: index of buffer
+ * _putchar - Writes a character to stdout
+ * @c: The character to print
  *
- * Return: void
+ * Return: On success, returns the number of characters written.
+ * On error, -1 is returned.
  */
-
-void _buffer(char buffer[], int *index)
+int _putchar(char c)
 {
-	if (*index > 0)
-		write(1, &buffer[0], *index);
-
-	*index = 0;
+	return (write(1, &c, 1));
 }
 
 /**
- * _printf - print a formatted string
- * @format: format string
- * Return: count of characters printed
+ * _printf - Produces output according to a format.
+ * @format: The format string.
+ *
+ * Return: The number of characters printed (excluding the null byte).
  */
-
 int _printf(const char *format, ...)
 {
-	int count = 0, index = 0, i;
-	char buffer[BUFF_SIZE];
 	va_list args;
+	int count = 0;
+	char *str, c;
 
-	if (!format)
-		return (-1);
 	va_start(args, format);
 
-	for (i = 0; format[i] != '\0'; i++)
+	while (*format)
 	{
-		if (format[i] != '%')
+		if (*format == '%' && format[1] != '\0')
 		{
-			buffer[index++] = format[i];
-			if (index == BUFF_SIZE)
-				_buffer(buffer, &index);
-			count++;
+			format++;
+			if (*format == '%')
+			{
+				_putchar('%');
+				count++;
+			}
+			else if (*format == 'c')
+			{
+				c = va_arg(args, int);
+				_putchar(c);
+				count++;
+			}
+			else if (*format == 's')
+			{
+				str = va_arg(args, char *);
+				while (*str)
+				{
+					_putchar(*str);
+					count++;
+					str++;
+				}
+			}
 		}
 		else
 		{
-			_buffer(buffer, &index);
-			++i;
+			_putchar(*format);
 			count++;
-		}
-	}
-
-	_buffer(buffer, &index);
-
-	va_end(args);
+		} format++;
+	} va_end(args);
 	return (count);
 }

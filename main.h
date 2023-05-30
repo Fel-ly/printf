@@ -9,5 +9,6 @@
 
 int _printf(const char *format, ...);
 void _buffer(char buffer[], int *index);
+int _specifier(const char *format, char buffer[], int *index, va_list args);
 
 #endif
