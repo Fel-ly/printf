@@ -27,6 +27,10 @@ int print_string(va_list args)
 	int count = 0;
 	char *str = va_arg(args, char *);
 
+	if (str == NULL)
+	{
+		str = "(null)";
+	}
 	while (*str != '\0')
 	{
 		write(1, str, 1);
