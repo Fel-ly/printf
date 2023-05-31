@@ -1,18 +1,6 @@
 #include "main.h"
 
 /**
- * _putchar - Writes a character to stdout
- * @c: The character to print
- *
- * Return: On success, returns the number of characters written.
- * On error, -1 is returned.
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-
-/**
  * _printf - Produces output according to a format.
  * @format: The format string.
  *
@@ -22,42 +10,34 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	int count = 0;
-	char *str, c;
 
 	va_start(args, format);
 
 	while (*format)
 	{
-		if (*format == '%' && format[1] != '\0')
+		if (*format == '%')
 		{
 			format++;
 			if (*format == '%')
 			{
-				_putchar('%');
-				count++;
+				count = print_percent(args);
 			}
 			else if (*format == 'c')
 			{
-				c = va_arg(args, int);
-				_putchar(c);
-				count++;
+				count = print_char(args);
 			}
 			else if (*format == 's')
 			{
-				str = va_arg(args, char *);
-				while (*str)
-				{
-					_putchar(*str);
-					count++;
-					str++;
-				}
+				count = print_string(args);
 			}
 		}
 		else
 		{
-			_putchar(*format);
+			write(1, format, 1);
 			count++;
-		} format++;
-	} va_end(args);
+		}
+		format++;
+	}
+	va_end(args);
 	return (count);
 }
