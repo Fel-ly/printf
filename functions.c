@@ -67,9 +67,9 @@ int print_percent(va_list args)
 
 int print_integer(va_list args)
 {
-	int count = 0, sign = 0, digits = 0, digit = 0, i;
+	int count = 0, sign = 0, digits = 0, temp = 0, digit = 0, i;
 	int num = va_arg(args, int);
-	char c;
+	char array[12];
 
 	if (num < 0)
 	{
@@ -79,20 +79,24 @@ int print_integer(va_list args)
 		num = -num;
 	}
 
-	int temp = num;
+	temp = num;
 
 	do {
 		digits++;
 		temp /= 10;
 	} while (temp != 0);
 
-	for (int i = 0; i < digits; i++)
+	for (i = digits - 1; i >= 0; i--)
 	{
 		digit = num % 10;
-		c = '0' + digit;
-		write(1, &c, 1);
-		count++;
+		array[i] = '0' + digit;
 		num /= 10;
+	}
+
+	for (i = 0; i < digits; i++)
+	{
+		write(1, &array[i], 1);
+		count++;
 	}
 
 	if (sign)
