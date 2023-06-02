@@ -57,3 +57,48 @@ int print_percent(va_list args)
 	count++;
 	return (count);
 }
+
+/**
+ * print_integer - prints an integer
+ * @args: list of arguments
+ *
+ * Return: Number of integers printed
+ */
+
+int print_integer(va_list args)
+{
+	int count = 0, sign = 0, digits = 0, digit = 0, i;
+	int num = va_arg(args, int);
+	char c;
+
+	if (num < 0)
+	{
+		write(1, "-", 1);
+		count++;
+		sign = 1;
+		num = -num;
+	}
+
+	int temp = num;
+
+	do {
+		digits++;
+		temp /= 10;
+	} while (temp != 0);
+
+	for (int i = 0; i < digits; i++)
+	{
+		digit = num % 10;
+		c = '0' + digit;
+		write(1, &c, 1);
+		count++;
+		num /= 10;
+	}
+
+	if (sign)
+	{
+		count++;
+	}
+
+	return (count);
+}

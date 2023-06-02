@@ -33,6 +33,10 @@ int _printf(const char *format, ...)
 			{
 				count = print_string(args);
 			}
+			else if (*format == 'i' || *format == 'd')
+			{
+				count = print_integer(args);
+			}
 		}
 		else
 		{
